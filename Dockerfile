@@ -1,18 +1,24 @@
 # Use Python 3.12
-FROM python:3.12.18-slim
+FROM python:3.12-slim
 
-# Set workdir
+# Set working directory
 WORKDIR /app
 
-# Copy project files
+# Copy requirements first for caching
+COPY requirements.txt .
+
+# Upgrade pip and install dependencies
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the project
 COPY . .
 
-# Install dependencies
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-
-# Expose port
+# Expose port (adjust if needed)
 EXPOSE 5000
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
 
 # Run your app
 CMD ["python", "main.py"]
