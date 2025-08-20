@@ -1,0 +1,9 @@
+[tool.poetry]
+name = "cdac"
+version = "0.1.0"
+description = ""
+authors = ["bala balashankar1011@gmail.com"]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.13"
+
