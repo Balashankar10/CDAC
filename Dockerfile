@@ -1,10 +1,13 @@
-# Use Python 3.12
+# Use Python 3.12 slim image
 FROM python:3.12-slim
 
 # Set working directory
 WORKDIR /app
 
-# Copy requirements first for caching
+# Install git and any other build dependencies
+RUN apt-get update && apt-get install -y git build-essential && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
 COPY requirements.txt .
 
 # Upgrade pip and install dependencies
@@ -14,12 +17,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the project
 COPY . .
 
-# Expose port (adjust if needed)
+# Set default port
 EXPOSE 5000
 
-# Set environment variables
-ENV PYTHONUNBUFFERED=1
-
-# Run your app
+# Run the app
 CMD ["python", "main.py"]
 
